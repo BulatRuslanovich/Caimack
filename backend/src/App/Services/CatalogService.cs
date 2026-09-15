@@ -1,12 +1,19 @@
+using App.Abstraction;
 using App.Common;
 using App.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Services;
 
-public class CatalogService()
+public class CatalogService(IAppDbContext db)
 {
     public async Task<PagedResult<TrackDto>> GetTracksAsync(CancellationToken ct)
     {
-        return new PagedResult<TrackDto>(new List<TrackDto>(), 0, 1, 50);
+        var tracks = await db.Tracks
+            .Select(t => new TrackDto(t.Id, t.Title))
+            .ToListAsync(ct);
+
+        return new PagedResult<TrackDto>(tracks, 0, 1, 50);
     }
+
 }
