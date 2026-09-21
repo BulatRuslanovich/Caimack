@@ -13,7 +13,7 @@ public class CatalogService(IAppDbContext db)
             .Select(t => new TrackDto(t.Id, t.Title))
             .ToListAsync(ct);
 
-        return new PagedResult<TrackDto>(tracks, 0, 1, 50);
+        return new PagedResult<TrackDto>(tracks, 10, 1, 50);
     }
 
 }

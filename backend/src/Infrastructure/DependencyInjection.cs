@@ -1,3 +1,4 @@
+using App.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Persistence;
@@ -15,10 +16,12 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection s, IConfiguration c)
     {
-        var connectionString = c.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionString = c.GetConnectionString("Main")
+        ?? throw new InvalidOperationException("Connection string 'Main' not found.");
 
-        s.AddDbContext<AppDdContext>(options => options.UseNpgsql(connectionString));
+        s.AddDbContext<AppDdContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+
+        s.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDdContext>());
         return s;
     }
 }
