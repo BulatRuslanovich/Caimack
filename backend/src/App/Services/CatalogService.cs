@@ -1,19 +1,36 @@
 using App.Abstraction;
 using App.Common;
 using App.Dtos;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Services;
 
 public class CatalogService(IAppDbContext db)
 {
-    public async Task<PagedResult<TrackDto>> GetTracksAsync(CancellationToken ct)
-    {
-        var tracks = await db.Tracks
-            .Select(t => new TrackDto(t.Id, t.Title))
-            .ToListAsync(ct);
+	public enum TrackSort { Title, Recent, Artist, Album }
 
-        return new PagedResult<TrackDto>(tracks, 10, 1, 50);
+
+    public async Task<PagedResult<TrackDto>> GetTracksAsync(PageRequest page, TrackSort sort, string? search, CancellationToken ct)
+    {
+	    var query = FilteredTracks(search);
+
+	    var ordered = sort switch
+	    {
+		    TrackSort.Recent => query.OrderByDescending(t => t.Id),
+		    _ => query.OrderBy(t => t.Title)
+	    };
+
+        return await ordered.ToPagedAsync(page, ToDto.Track(Guid.CreateVersion7()), ct);
+    }
+
+    private IQueryable<Track> FilteredTracks(string? search)
+    {
+	    var query = db.Tracks.AsNoTracking();
+
+	    if (SearchTerm.For(search) is not { Pattern: var pattern }) return query;
+
+	    return query.Where(t => EF.Functions.Like(t.Title, pattern, SearchTerm.EscapeChar));
     }
 
 }

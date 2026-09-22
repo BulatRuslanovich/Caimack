@@ -10,8 +10,8 @@ namespace Api.Controllers;
 public class TracksController(CatalogService catalogService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<TrackDto>>> List() {
-        var tracks = await catalogService.GetTracksAsync(CancellationToken.None);
+    public async Task<ActionResult<PagedResult<TrackDto>>> List([FromQuery] int? page, [FromQuery]int? pageSize, [FromQuery]string? q = null, [FromQuery] CatalogService.TrackSort sort = CatalogService.TrackSort.Title, CancellationToken ct = default) {
+        var tracks = await catalogService.GetTracksAsync(new PageRequest(page, pageSize), sort, q, ct);
         return Ok(tracks);
     }
 }
