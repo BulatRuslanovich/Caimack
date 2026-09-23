@@ -6,4 +6,8 @@ namespace App.Abstraction;
 public interface IAppDbContext
 {
     DbSet<Track> Tracks { get; }
+    DbSet<User> Users { get; }
+    DbSet<RefreshToken> RefreshTokens { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken ct = default);
 }

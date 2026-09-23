@@ -24,3 +24,5 @@ frontend/e2e/.results/
 npm-debug.log*
 .DS_Store
 Thumbs.db
+
+*/.idea

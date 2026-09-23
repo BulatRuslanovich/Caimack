@@ -2,6 +2,7 @@ using App.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Persistence;
+using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
@@ -11,6 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection s, IConfiguration c)
     {
         s.AddPersistence(c);
+        s.AddAdapters();
         return s;
     }
 
@@ -24,4 +26,10 @@ public static class DependencyInjection
         s.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDdContext>());
         return s;
     }
+
+    private static void AddAdapters(this IServiceCollection s)
+    {
+	    s.AddSingleton<IPassHasher, BCryptPassHasher>();
+    }
+
 }
