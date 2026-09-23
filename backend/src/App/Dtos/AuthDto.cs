@@ -20,4 +20,19 @@ public record SetRoleDto(bool IsAdmin);
 
 public record ResetPassDto(string NewPass);
 
+public record UserDto(Guid Id, string  Username, bool IsAdmin);
+
+public record AuthResponseDto(
+	UserDto User,
+	string AToken,
+	DateTimeOffset ATokenExpiresAt,
+	string RToken,
+	DateTimeOffset RTokenExpiresAt
+);
+
+public record LoginDto(
+	string Username,
+	string Password
+);
+
 

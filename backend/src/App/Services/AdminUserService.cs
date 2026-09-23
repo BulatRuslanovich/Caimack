@@ -52,7 +52,7 @@ public partial class AdminUserService(IAppDbContext db, IPassHasher hasher, Time
 			throw new ConflictException();
 		}
 
-		return ToDto.FromUser(user);
+		return ToDto.FromUserToAuth(user);
 	}
 
 	public async Task<AuthUserDto> SetActiveAsync(Guid id, bool active, CancellationToken ct)
@@ -68,7 +68,7 @@ public partial class AdminUserService(IAppDbContext db, IPassHasher hasher, Time
 		}
 
 		await db.SaveChangesAsync(ct).ConfigureAwait(false);
-		return ToDto.FromUser(user);
+		return ToDto.FromUserToAuth(user);
 	}
 
 	public async Task<AuthUserDto> SetRoleAsync(Guid id, bool isAdmin, CancellationToken ct)
@@ -79,7 +79,7 @@ public partial class AdminUserService(IAppDbContext db, IPassHasher hasher, Time
 
 		await db.SaveChangesAsync(ct).ConfigureAwait(false);
 
-		return ToDto.FromUser(user);
+		return ToDto.FromUserToAuth(user);
 	}
 
 	public async Task ResetPassAsync(Guid id, string password, CancellationToken ct)

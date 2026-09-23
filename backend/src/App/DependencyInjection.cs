@@ -6,12 +6,12 @@ namespace App;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApp(this IServiceCollection s)
+    public static void AddApp(this IServiceCollection s)
     {
 	    s.AddSingleton(TimeProvider.System);
 
         s.AddScoped<CatalogService>();
         s.AddScoped<AdminUserService>();
-        return s;
+        s.AddScoped<AuthService>();
     }
 }

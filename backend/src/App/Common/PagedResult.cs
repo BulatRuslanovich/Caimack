@@ -26,15 +26,15 @@ public record PagedResult<T>(
 
 public record PageRequest
 {
-    public const int MaxPageSize = 200;
+	private const int MaxPageSize = 200;
 
     public int Page { get; }
     public int PageSize { get; }
 
     public PageRequest(int? page = null, int? pageSize = null)
     {
-        Page = page == null || page < 1 ? 1 : page.Value;
-        PageSize = pageSize == null || pageSize < 1 ? 50 : Math.Min(pageSize.Value, MaxPageSize);
+        Page = page is null or < 1 ? 1 : page.Value;
+        PageSize = pageSize is null or < 1 ? 50 : Math.Min(pageSize.Value, MaxPageSize);
     }
 
     public int Skip => (Page - 1) * PageSize;
