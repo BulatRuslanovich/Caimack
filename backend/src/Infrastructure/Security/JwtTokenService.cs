@@ -52,7 +52,7 @@ public class JwtTokenService(IOptions<JwtOptions> ops, TimeProvider time) : ITok
 		{
 			UserId = id,
 			TokenHash = HashRToken(raw),
-			CreateAt = now,
+			CreatedAt = now,
 			ExpiresAt = now.AddDays(30)
 		};
 

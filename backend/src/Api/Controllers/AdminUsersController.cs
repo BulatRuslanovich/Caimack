@@ -2,10 +2,14 @@
 using App.Dtos;
 using App.Services;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[ApiController]
+[Route("api/users")]
+// [Authorize(Policy = "Admin")]
 public class AdminUsersController(AdminUserService service) : ControllerBase
 {
 	[HttpGet]

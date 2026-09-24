@@ -5,7 +5,7 @@ public record AuthUserDto(
 		string Username,
 		bool IsAdmin,
 		bool IsActive,
-		DateTimeOffset  CreatedAt
+		DateTimeOffset CreatedAt
 	);
 
 public record CreateUserDto(
