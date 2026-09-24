@@ -58,4 +58,13 @@ public class AuthController(AuthService service, ICurrentUser user, IWebHostEnvi
 	{
 		return Ok(await service.GetMeAsync(user.Id, ct));
 	}
+
+	[HttpPost("password")]
+	public async Task<IActionResult> ChangePassword(ChangePassDto dto, CancellationToken ct)
+	{
+		var res = await service.ChangePasswordAsync(dto, user.Id, ct);
+		AuthCookies.Write(Response, res, IsSecure);
+
+		return NoContent();
+	}
 }
