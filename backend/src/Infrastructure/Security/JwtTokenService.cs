@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using App.Abstraction;
 using App.Options;
@@ -62,4 +63,18 @@ public class JwtTokenService(IOptions<JwtOptions> ops, TimeProvider time) : ITok
 	{
 		return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
 	}
+}
+
+public class CPCurrentUser(ClaimsPrincipal principal) : ICurrentUser
+{
+	public Guid Id
+	{
+		get
+		{
+			var value = principal.FindFirst("sub")?.Value;
+			return Guid.TryParse(value, out var id) ? id : Guid.Empty;
+		}
+	}
+
+	public bool IsAuthenticated => principal.Identity?.IsAuthenticated == true && Id != Guid.Empty;
 }

@@ -35,4 +35,6 @@ public record LoginDto(
 	string Password
 );
 
+public record ChangePassDto(string currentPass, string newPass);
+
 

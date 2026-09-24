@@ -30,6 +30,7 @@ public static class DependencyInjection
     private static void AddAdapters(this IServiceCollection s)
     {
 	    s.AddSingleton<IPassHasher, BCryptPassHasher>();
+	    s.AddSingleton<ITokenService, JwtTokenService>();
     }
 
 }

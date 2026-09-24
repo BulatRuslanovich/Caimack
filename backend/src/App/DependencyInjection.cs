@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using App.Services;
-using Microsoft.Extensions.Configuration;
 
 namespace App;
 
@@ -13,5 +12,7 @@ public static class DependencyInjection
         s.AddScoped<CatalogService>();
         s.AddScoped<AdminUserService>();
         s.AddScoped<AuthService>();
+
+        s.AddSingleton<LoginAttemptTracker>();
     }
 }

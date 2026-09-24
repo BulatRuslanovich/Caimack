@@ -3,8 +3,19 @@ using System.Text.Json.Serialization;
 using Api.Startup;
 using Infrastructure;
 using App;
+using App.Abstraction;
+using Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser>(l =>
+	new CPCurrentUser(l.GetRequiredService<IHttpContextAccessor>().HttpContext?.User));
+
+
+
 
 builder.Services.AddControllers().AddJsonOptions(o =>
 {

@@ -14,4 +14,6 @@ public static class ToDto
 
 	public static UserDto FromUser(User u) => new UserDto(u.Id, u.Username, u.IsAdmin);
 
+	public static Expression<Func<User, UserDto>> User { get; } = u => FromUser(u);
+
 }
