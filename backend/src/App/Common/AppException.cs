@@ -30,3 +30,9 @@ public class ForbiddenException(string message = "Lol, forbidden;(") : AppExcept
 	public override int StatusCode => 403;
 }
 
+public class UploadTooLargeException(long maxBytes)
+	: AppException($"The file exceed the {maxBytes / 1024 ^ 2} MB upload limit.")
+{
+	public override int StatusCode => 413;
+}
+

@@ -8,7 +8,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/artists")]
-public class ArtistsController(CatalogService service) : ControllerBase
+public class ArtistsController(CatalogService service, CoverStreamService cover) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<PagedResult<ArtistDto>>> List([FromQuery] int? page, [FromQuery] int? pageSize,  [FromQuery] string? q, CancellationToken ct)
@@ -21,6 +21,15 @@ public class ArtistsController(CatalogService service) : ControllerBase
     {
 	    return Ok(await service.GetArtistAsync(id, new PageRequest(page, pageSize), ct));
     }
+
+    [HttpGet("{id:guid}/img")]
+    [Produces("image/jpeg", "image/png", "image/webp")]
+    public async Task<IActionResult> Image(Guid id, CancellationToken ct, [FromQuery] CoverSize size = CoverSize.Full)
+    {
+	    return this.ImageFile(await cover.OpenArtistCoverAsync(id, size, ct));
+    }
+
+
 
 
 }
