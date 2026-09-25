@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using App.Dtos;
+using App.DTOs;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Api.Auth;

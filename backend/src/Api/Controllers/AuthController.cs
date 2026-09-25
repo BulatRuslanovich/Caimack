@@ -1,7 +1,7 @@
 ﻿using Api.Auth;
 using App.Abstraction;
 using App.Common;
-using App.Dtos;
+using App.DTOs;
 using App.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -57,5 +57,14 @@ public class AuthController(AuthService service, ICurrentUser user, IWebHostEnvi
 	public async Task<ActionResult<AuthUserDto>> Me(CancellationToken ct)
 	{
 		return Ok(await service.GetMeAsync(user.Id, ct));
+	}
+
+	[HttpPost("password")]
+	public async Task<IActionResult> ChangePassword(ChangePassDto dto, CancellationToken ct)
+	{
+		var res = await service.ChangePasswordAsync(dto, user.Id, ct);
+		AuthCookies.Write(Response, res, IsSecure);
+
+		return NoContent();
 	}
 }

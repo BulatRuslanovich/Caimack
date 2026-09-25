@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using App.Abstraction;
 using App.Common;
-using App.Dtos;
+using App.DTOs;
 using Domain.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;

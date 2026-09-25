@@ -1,4 +1,4 @@
-﻿namespace App.Dtos;
+﻿namespace App.DTOs;
 
 public record AuthUserDto(
 		Guid Id,
