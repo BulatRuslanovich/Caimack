@@ -28,11 +28,36 @@ public class CatalogService(IAppDbContext db)
     {
 	    var query = db.Tracks.AsNoTracking();
 
-	    if (SearchTerm.For(search) is not { Pattern: var pattern }) return query;
-
-	    return query.Where(t => EF.Functions.Like(t.Title, pattern, SearchTerm.EscapeChar));
+	    return SearchTerm.For(search) is not { Pattern: var pattern } ? query : query.Where(t => EF.Functions.Like(t.Title, pattern, SearchTerm.EscapeChar));
     }
 
-	
+    public async Task<PagedResult<ArtistDto>> GetArtistsAsync(PageRequest page, string? q, CancellationToken ct)
+    {
+	    var query = db.Artists.AsNoTracking();
+
+	    if (SearchTerm.For(q) is { Pattern: var pattern })
+	    {
+		    query = query.Where(a => EF.Functions.Like(a.NormalizedName, pattern,  SearchTerm.EscapeChar));
+	    }
+
+	    return await query.OrderBy(a => a.NormalizedName).ToPagedAsync(page, ToDto.Artist, ct);
+    }
+
+    public async Task<ArtistDetailsDto> GetArtistAsync(Guid id, PageRequest trackPage, CancellationToken ct)
+    {
+	    var page = trackPage ?? new PageRequest();
+
+	    var artist = await db.Artists.AsNoTracking()
+		    .Where(a => a.Id == id)
+		    .Select(a => new { a.Id, a.Name, a.ImagePath })
+		    .FirstOrDefaultAsync(ct);
+
+	    // var albums =
+	    // var tracks =
+
+	    return new ArtistDetailsDto(artist.Id, artist.Name, artist.ImagePath != null);
+    }
+
+
 
 }

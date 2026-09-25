@@ -9,6 +9,5 @@ public class AppDdContext(DbContextOptions<AppDdContext> options) : DbContext(op
     public DbSet<Track> Tracks => Set<Track>();
     public DbSet<User> Users => Set<User>();
     public DbSet<RefreshToken>  RefreshTokens => Set<RefreshToken>();
-
-    public DbSet<Arists> Aritists => Set<Aritist>();
+    public DbSet<Artist> Artists => Set<Artist>();
 }

@@ -16,4 +16,8 @@ public static class ToDto
 
 	public static Expression<Func<User, UserDto>> User { get; } = u => FromUser(u);
 
+	//TODO: когда будет альбомы и треки надо заменить нули
+	public static Expression<Func<Artist, ArtistDto>> Artist { get; } = a => new ArtistDto(
+		a.Id, a.Name, 0, 0, a.ImagePath != null);
+
 }
