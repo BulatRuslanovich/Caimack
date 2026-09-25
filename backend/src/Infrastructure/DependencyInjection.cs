@@ -1,5 +1,6 @@
 using App.Abstraction;
 using App.Options;
+using Infrastructure.Img;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Persistence;
@@ -43,6 +44,7 @@ public static class DependencyInjection
 	    s.AddSingleton<ITokenService, JwtTokenService>();
 	    s.AddSingleton<IImgStorage, FSImgStorage>();
 	    s.AddSingleton<IMusicStorage, FSMusicStorage>();
+	    s.AddSingleton<IImgProcessor, ImgProcessor>();
     }
 
     private static void AddOptionsFor(this IServiceCollection s, IConfiguration c)

@@ -15,3 +15,6 @@ public record ArtistDetailsDto(
 	bool HasImg
 );
 
+public record UpdateArtistDto(
+    string Name
+);

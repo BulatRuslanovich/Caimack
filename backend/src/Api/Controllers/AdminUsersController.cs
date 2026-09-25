@@ -9,7 +9,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
-// [Authorize(Policy = "Admin")]
+[Authorize(Policy = "Admin")]
 public class AdminUsersController(AdminUserService service) : ControllerBase
 {
 	[HttpGet]

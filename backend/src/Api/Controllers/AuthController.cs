@@ -31,7 +31,7 @@ public class AuthController(AuthService service, ICurrentUser user, IWebHostEnvi
 	{
 		try
 		{
-			var res = await service.RefreshAsync(Request.Cookies[AuthCookies.RTokenCookie], ct);
+			var res = await service.RefreshAsync(Request.Cookies[AuthCookies.RTokenCookie] ?? string.Empty, ct);
 			AuthCookies.Write(Response, res, IsSecure);
 
 			return Ok(res.User);
@@ -47,7 +47,7 @@ public class AuthController(AuthService service, ICurrentUser user, IWebHostEnvi
 	[AllowAnonymous]
 	public async Task<IActionResult> Logout(CancellationToken ct)
 	{
-		await service.LogoutAsync(Request.Cookies[AuthCookies.RTokenCookie], ct);
+		await service.LogoutAsync(Request.Cookies[AuthCookies.RTokenCookie] ?? string.Empty, ct);
 		AuthCookies.Clear(Response, IsSecure);
 
 		return NoContent();
