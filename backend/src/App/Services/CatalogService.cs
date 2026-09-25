@@ -33,4 +33,6 @@ public class CatalogService(IAppDbContext db)
 	    return query.Where(t => EF.Functions.Like(t.Title, pattern, SearchTerm.EscapeChar));
     }
 
+	
+
 }
