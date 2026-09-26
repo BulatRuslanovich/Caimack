@@ -75,7 +75,7 @@ public class TagResolver(IAppDbContext db, TimeProvider time)
 		return artist;
 	}
 
-	public async Task<Album> GetOrCreateAlbum(
+	public async Task<Album> GetOrCreateAlbumAsync(
 		string title,
 		Guid artistId,
 		int? year,
@@ -90,6 +90,48 @@ public class TagResolver(IAppDbContext db, TimeProvider time)
 			return cached;
 		}
 
+		var album = await db.Albums.FirstOrDefaultAsync(a => a.NormalizedTitle == key && a.ArtistId == artistId, ct);
 		
+		if (album is null)
+		{
+			album = new Album
+			{
+				Title = trim,
+				NormalizedTitle = key,
+				ArtistId = artistId,
+				Year = year,
+				CreatedAt = time.GetUtcNow()
+			};
+
+			db.Albums.Add(album);
+		} else
+		{
+			album.Year ??= year;
+		}
+
+		_albums[(artistId, key)] = album;
+		return album;
+	}
+
+	public async Task<Genre> GetOrCreateGenreAsync(string name, CancellationToken ct)
+	{
+		var trim = name.Trim();
+		var key = Normalize.Key(trim);
+
+		if (_genres.TryGetValue(key, out var cached))
+		{
+			return cached;
+		}
+
+		var genre = await db.Genres.FirstOrDefaultAsync(g => g.NormalizedName == key, ct);
+
+		if (genre is null)
+		{
+			genre = new Genre { Name = trim, NormalizedName = key, CreatedAt = time.GetUtcNow() };
+			db.Genres.Add(genre);
+		}
+
+		_genres[key] = genre;
+		return genre;
 	}
 }

@@ -20,4 +20,20 @@ public static class ToDto
 	public static Expression<Func<Artist, ArtistDto>> Artist { get; } = a => new ArtistDto(
 		a.Id, a.Name, 0, 0, a.ImagePath != null);
 
+	public static Expression<Func<Album, AlbumDto>> Album => a => new AlbumDto (
+		a.Id,
+		a.Title,
+		a.ArtistId,
+		a.Artist!.Name,
+		a.Year,
+		0,
+		0,
+		a.CoverPath != null,
+		a.CreatedAt
+	);
+
+	public static Expression<Func<Genre, GenreDto>> Genre => g => new GenreDto(
+		g.Id, g.Name, 0, Array.Empty<Guid>()
+	);
+
 }

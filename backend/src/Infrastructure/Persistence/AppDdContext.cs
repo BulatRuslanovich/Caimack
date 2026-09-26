@@ -11,4 +11,5 @@ public class AppDdContext(DbContextOptions<AppDdContext> options) : DbContext(op
     public DbSet<RefreshToken>  RefreshTokens => Set<RefreshToken>();
     public DbSet<Artist> Artists => Set<Artist>();
     public DbSet<Album>  Albums => Set<Album>();
+    public DbSet<Genre> Genres => Set<Genre>();
 }

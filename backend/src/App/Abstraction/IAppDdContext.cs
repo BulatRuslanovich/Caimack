@@ -9,7 +9,8 @@ public interface IAppDbContext
     DbSet<User> Users { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
     DbSet<Artist> Artists { get; }
-    DbSet<Album>  Albums { get; }
+    DbSet<Album> Albums { get; }
+    DbSet<Genre> Genres { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 }

@@ -37,12 +37,20 @@ public record AlbumDetailDto(
 	string ArtistName,
 	int? Year,
 	bool HasImg,
-	int DurationSeconds
+	int DurationSeconds,
+    IReadOnlyList<TrackDto> Tracks
 );
 
 public record UpdateAlbumDto(
 	string? Title,
 	string? ArtistName,
 	int? Year
+);
+
+public record GenreDto(
+    Guid Id,
+    string Name,
+    int TrackCount,
+    IReadOnlyList<Guid> CoverAlbumsIds
 );
 
