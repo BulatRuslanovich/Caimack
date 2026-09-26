@@ -52,9 +52,4 @@ public class ArtistsController(CatalogService service, CoverStreamService cover,
 	    await profile.RemoveImageAsync(id, ct);
 	    return NoContent();
     }
-
-
-
-
-
 }

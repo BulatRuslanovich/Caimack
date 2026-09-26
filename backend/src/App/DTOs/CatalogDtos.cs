@@ -18,3 +18,31 @@ public record ArtistDetailsDto(
 public record UpdateArtistDto(
     string Name
 );
+
+public record AlbumDto(
+    Guid Id,
+    string Title,
+    Guid ArtistId,
+    string ArtistName,
+    int? Year,
+    int TrackCount,
+    int DurationSeconds,
+    bool HasImg,
+    DateTimeOffset CreatedAt);
+
+public record AlbumDetailDto(
+	Guid Id,
+	string Title,
+	Guid ArtistId,
+	string ArtistName,
+	int? Year,
+	bool HasImg,
+	int DurationSeconds
+);
+
+public record UpdateAlbumDto(
+	string? Title,
+	string? ArtistName,
+	int? Year
+);
+
